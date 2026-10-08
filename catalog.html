@@ -24,7 +24,11 @@ input,textarea{width:100%;padding:9px;border:1px solid #ccc;border-radius:7px}.f
 </style>
 </head>
 <body>
-<script>if(sessionStorage.getItem("afixs_login")!=="1"){location.replace("index.html")}</script>
+<script>
+if(sessionStorage.getItem("afixs_login")!=="1" || !sessionStorage.getItem("afixs_user")){
+  location.replace("index.html");
+}
+</script>
 <div class="toolbar">
 <button onclick="createCatalog()">＋ Создать новый каталог</button>
 <button onclick="addCard()">＋ Добавить карточку</button>
@@ -48,7 +52,8 @@ input,textarea{width:100%;padding:9px;border:1px solid #ccc;border-radius:7px}.f
 </div>
 <script>
 let catalogs=[],catalogCurrent=0,current=-1;
-const STORAGE_KEY="AFIXS_CATALOG_EDITOR_DATA";
+const AFIXS_USER=sessionStorage.getItem("afixs_user")||"guest";
+const STORAGE_KEY="AFIXS_CATALOG_EDITOR_DATA_"+AFIXS_USER;
 function saveCatalog(){localStorage.setItem(STORAGE_KEY,JSON.stringify(catalogs));alert("Каталог сохранён");}
 function loadCatalog(){try{const saved=localStorage.getItem(STORAGE_KEY);if(saved){const data=JSON.parse(saved);if(Array.isArray(data)&&data.length){if(data[0]&&Array.isArray(data[0].cards))catalogs=data;else catalogs=[{cards:data}];return true}}}catch(e){}return false}
 function blank(){return{name:"НАЗВАНИЕ ТОВАРА",photo:"",desc:"",rows:[["Motor turi",""],["Kuchlanish (V)",""],["Tok kuchi (A)",""],["Moment (N·m)",""],["Aylanish (RPM)",""],["Vazni (kg)",""]]}};
