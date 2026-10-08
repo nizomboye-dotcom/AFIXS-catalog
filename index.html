@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFIXS — Вход</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f2f2f2;
+  font-family:Arial,sans-serif;
+}
+.login-box{
+  width:360px;
+  max-width:90%;
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+h1{
+  margin:0 0 25px;
+  text-align:center;
+  font-size:28px;
+}
+input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:16px;
+}
+button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:8px;
+  background:#ff8c00;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover{background:#e67e00}
+#error{
+  min-height:20px;
+  margin-top:12px;
+  text-align:center;
+  color:#c62828;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <h1>AFIXS Catalog</h1>
+
+  <input id="login" type="text" placeholder="Логин" autocomplete="username">
+  <input id="password" type="password" placeholder="Пароль" autocomplete="current-password">
+
+  <button type="button" onclick="enter()">Войти</button>
+
+  <div id="error"></div>
+</div>
+
+<script>
+const USERS = {
+  admin: {
+    password: "1234",
+    catalog: "catalog.html"
+  },
+  manager: {
+    password: "5678",
+    catalog: "catalog.html"
+  }
+};
+
+function enter(){
+  const login = document.getElementById("login").value.trim();
+  const password = document.getElementById("password").value;
+  const error = document.getElementById("error");
+
+  if(USERS[login] && USERS[login].password === password){
+    sessionStorage.setItem("afixs_login","1");
+    sessionStorage.setItem("afixs_user",login);
+    window.location.href = USERS[login].catalog;
+  }else{
+    error.textContent = "Неверный логин или пароль";
+  }
+}
+
+document.getElementById("password").addEventListener("keydown", function(e){
+  if(e.key === "Enter") enter();
+});
+</script>
+
+</body>
+</html>
